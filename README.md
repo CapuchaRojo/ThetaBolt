@@ -1,3 +1,5 @@
+[![CI - Run Tests](https://github.com/CapuchaRojo/thetabolt/actions/workflows/pytest.yml/badge.svg)](https://github.com/CapuchaRojo/thetabolt/actions/workflows/pytest.yml)
+
 # ⚡️ ThetaBolt
 
 > _The world's first quantum-inspired AI kernel built for zero-infrastructure autonomy, signal-driven computation, and radical sustainability._
