@@ -3,7 +3,7 @@ ThetaBolt QATP Kernel — Quantum Condensation Protocol and Agent Infrastructure
 """
 import threading
 import time
-import signal_driver  # placeholder for future ASA module
+from src.agents import signal_driver
 
 class QATPKernel:
     def __init__(self, config=None):
