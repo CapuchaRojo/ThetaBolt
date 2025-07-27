@@ -1,3 +1,15 @@
+# ⚡️ ThetaBolt: Quantum‑Infused AI Kernel for Sustainable Autonomy
+
+## 1. Executive Summary  
+*A quantum‑inspired AI kernel* designed to operate without cloud infrastructure, reacting directly to environmental signals for decentralized autonomy. See full outline in repo.
+
+## 2. Architecture Overview
+
+- **QATP Kernel**: Runs feedback loops based on Adaptive Signal Architecture.
+- **Agents**: Respond to processed signal vectors.
+- **Signal Driver**: Converts ambient environmental and IoT data into actionable state vectors.
+
+...
 # ⚡️ ThetaBolt Whitepaper
 
 ## 1. Executive Summary  
