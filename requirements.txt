@@ -9,7 +9,7 @@ qiskit-machine-learning>=0.7.0
 mitiq>=0.46.0
 
 # Optional quantum tools for simulation
-quutip>=4.7.0
+quutip>=5.2.0
 
 # Development & testing
 pytest>=7.0.0
