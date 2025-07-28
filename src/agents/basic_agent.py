@@ -1,6 +1,8 @@
 """
 ThetaBolt Agent Shell — basic agent role
 """
+
+
 class BasicAgent:
     def __init__(self, agent_id, config=None):
         self.agent_id = agent_id

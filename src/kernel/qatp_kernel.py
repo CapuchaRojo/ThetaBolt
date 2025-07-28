@@ -1,9 +1,12 @@
 """
 ThetaBolt QATP Kernel — Quantum Condensation Protocol and Agent Infrastructure
 """
+
 import threading
 import time
+
 from src.agents import signal_driver
+
 
 class QATPKernel:
     def __init__(self, config=None):
@@ -35,6 +38,7 @@ class QATPKernel:
     def shutdown(self):
         print("⚡ [ThetaBolt] Shutting down kernel...")
         self.running = False
+
 
 if __name__ == "__main__":
     kernel = QATPKernel()

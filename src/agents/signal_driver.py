@@ -1,7 +1,9 @@
 """
 Signal Driver placeholder — read EMF, Wi‑Fi strength, environment data
 """
+
 import random
+
 
 def read_environment():
     # Placeholder for actual hardware interaction

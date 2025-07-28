@@ -10,7 +10,7 @@ We welcome bold innovators, clean coders, and curious explorers. Whether you're 
 
 1. **Fork the repository**
 
-2. **Clone your fork**  
+2. **Clone your fork**
    ```bash
    git clone https://github.com/YOUR_USERNAME/ThetaBolt.git
 
@@ -34,7 +34,7 @@ src/agents/ – Modular AI agent roles
 docs/ – Technical papers and architecture references
 
  **Contribution Ideas**
- 
+
 Agent behavior logic
 
 Quantum simulation scaffolds

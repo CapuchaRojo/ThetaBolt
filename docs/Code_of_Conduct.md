@@ -44,7 +44,7 @@ We commit to investigating and addressing issues fairly and promptly.
 
 ## 🧬 Community Guidelines
 
-ThetaBolt is built on respect — for energy, privacy, and people.  
+ThetaBolt is built on respect — for energy, privacy, and people.
 The goal is sustainability **without exploitation** — of power or others.
 
 Everyone has the right to feel safe and inspired here.
@@ -52,4 +52,3 @@ Everyone has the right to feel safe and inspired here.
 ---
 
 *Adapted from the Contributor Covenant v2.1 – [contributor-covenant.org](https://www.contributor-covenant.org)*
-
