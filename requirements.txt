@@ -14,3 +14,7 @@ qutip==5.2.0
 # Development & testing
 pytest>=7.0.0
 pigar>=0.10.0
+reservoirpy[hyper]>=0.3.13
+hyperopt
+matplotlib
+jsonargparse

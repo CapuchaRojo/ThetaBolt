@@ -1,50 +1,42 @@
-"""
-ThetaBolt QATP Kernel — Quantum Condensation Protocol and Agent Infrastructure
-"""
+import reservoirpy as rpy
+from reservoirpy.nodes import Reservoir, Ridge
+from reservoirpy.observables import rmse
 
-import threading
-import time
-
-from src.agents import signal_driver
+from ..agents.dispatch_agent import DispatchAgent
+from ..agents.message_bus import MessageBus
+from ..agents.monitor_agent import MonitorAgent
+from ..agents.swarm_agent import SwarmAgent
+from .config_loader import load_config
 
 
 class QATPKernel:
     def __init__(self, config=None):
-        self.config = config or {}
-        self.running = False
+        config = config or load_config()
 
-    def startup(self):
-        print("⚡ [ThetaBolt] QATP Kernel starting...")
-        self.running = True
-        threading.Thread(target=self._run_loop, daemon=True).start()
+        rpy.set_seed(config.seed)
 
-    def _run_loop(self):
-        while self.running:
-            env_data = signal_driver.read_environment()
-            task_vector = self._process_env(env_data)
-            self._dispatch_agents(task_vector)
-            time.sleep(self.config.get("loop_interval", 0.5))
+        self.reservoir = Reservoir(units=config.units, sr=config.sr, lr=config.lr)
+        self.readout = Ridge(ridge=config.ridge)
+        self.esn = self.reservoir >> self.readout
 
-    def _process_env(self, env_data):
-        # Quantum condensation-inspired logic placeholder
-        # Transform environmental signals into task priorities
-        processed = {"strength": len(env_data)}  # simple example
-        return processed
+        self.message_bus = MessageBus()
+        self.dispatch_agent = DispatchAgent(self.message_bus)
+        self.monitor_agent = MonitorAgent(self.message_bus)
+        self.swarm = [SwarmAgent(self.message_bus) for _ in range(config.num_agents)]
 
-    def _dispatch_agents(self, vector):
-        # Placeholder: spawn or signal agent modules
-        print(f"Dispatching agents with vector: {vector}")
+    def start_swarm(self):
+        for agent in self.swarm:
+            agent.start()
 
-    def shutdown(self):
-        print("⚡ [ThetaBolt] Shutting down kernel...")
-        self.running = False
+    def stop_swarm(self):
+        for agent in self.swarm:
+            agent.stop()
 
+    def train(self, X_train, y_train, warmup=50):
+        self.esn.fit(X_train, y_train, warmup=warmup)
 
-if __name__ == "__main__":
-    kernel = QATPKernel()
-    kernel.startup()
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        kernel.shutdown()
+    def predict(self, X_test):
+        return self.esn.run(X_test)
+
+    def evaluate(self, y_true, y_pred):
+        return rmse(y_true, y_pred)

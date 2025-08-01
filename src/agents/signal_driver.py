@@ -1,14 +1,6 @@
-"""
-Signal Driver placeholder — read EMF, Wi‑Fi strength, environment data
-"""
-
-import random
+import numpy as np
 
 
 def read_environment():
-    # Placeholder for actual hardware interaction
-    return {
-        "emf": random.uniform(0, 1),
-        "signal_strength": random.randint(0, 100),
-        "noise": random.uniform(0, 1),
-    }
+    """Mock sensor input: replace later with real sensor vectors."""
+    return np.random.randn(1).tolist()

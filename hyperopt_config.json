@@ -1,0 +1,14 @@
+{
+    "exp": "theta_hyperopt",
+    "hp_max_evals": 100,
+    "hp_method": "random",
+    "seed": 42,
+    "instances_per_trial": 5,
+    "hp_space": {
+        "units": ["choice", 50, 100, 200],
+        "sr": ["loguniform", 1e-2, 10],
+        "lr": ["loguniform", 1e-3, 1],
+        "ridge": ["loguniform", 1e-8, 1],
+        "seed": ["choice", 42]
+    }
+}
