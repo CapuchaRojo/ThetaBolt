@@ -29,3 +29,8 @@ Built for performance. Designed for freedom. Powered by the quantum.
 ```bash
 git clone https://github.com/CapuchaRojo/ThetaBolt.git
 cd ThetaBolt
+python -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+pip install -r requirements.txt
+pytest
+```
