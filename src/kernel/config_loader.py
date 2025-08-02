@@ -9,6 +9,7 @@ def load_config():
     parser.add_argument("--lr", type=float, default=0.3)
     parser.add_argument("--ridge", type=float, default=1e-5)
     parser.add_argument("--num_agents", type=int, default=10)
+    parser.add_argument("--use_quantum", type=bool, default=False)
     parser.add_argument("--config", action="config", help="JSON config file")
 
     return parser.parse_args()

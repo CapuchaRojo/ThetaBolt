@@ -2,14 +2,9 @@ numpy>=1.24.0
 scipy>=1.9.0
 
 # Qiskit and Quantum Kernel functionality
-qiskit>=1.0.0
-qiskit-machine-learning>=0.7.0
-
-# Quantum error mitigation (correct latest version)
-mitiq>=0.46.0
-
-# Optional quantum tools for simulation
-qutip==5.2.0
+qiskit-terra==0.25.1
+qiskit-aer==0.12.2
+qiskit-machine-learning==0.7.1
 
 # Development & testing
 pytest>=7.0.0

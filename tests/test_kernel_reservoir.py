@@ -27,6 +27,7 @@ def test_reservoir_esn_learning():
     parser.add_argument("--ridge", type=float)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--num_agents", type=int, default=10)
+    parser.add_argument("--use_quantum", type=bool, default=False)
     config = parser.parse_args(["--config", "test_config.json"])
 
     t = np.linspace(0, 10, 500)
