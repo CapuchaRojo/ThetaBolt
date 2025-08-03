@@ -2,7 +2,7 @@ import threading
 import time
 import uuid
 
-from .protocols import Message, MessageType
+from .protocols import Message, MessageType, Task
 
 
 class SwarmAgent:
@@ -53,15 +53,36 @@ class SwarmAgent:
 
     def handle_task(self, task_message: Message):
         self.state = "working"
-        print(f"[{self.agent_id}] Started task: {task_message.payload}")
-        # Simulate work
-        time.sleep(5)
-        print(f"[{self.agent_id}] Finished task: {task_message.payload}")
+        task: Task = task_message.payload
+        print(f"[{self.agent_id}] Started task: {task.task_type}")
+
+        result = None
+        # Simulate work and perform calculation
+        time.sleep(2)
+        if task.task_type == "math_task":
+            op = task.params.get("operation")
+            values = task.params.get("values", [])
+            if op == "add":
+                result = sum(values)
+            elif op == "multiply":
+                result = 1
+                for v in values:
+                    result *= v
+            else:
+                result = "Unsupported operation"
+        else:
+            result = "Unknown task type"
+
+        print(
+            f"[{self.agent_id}] Finished task: {task.task_type} with result: {result}"
+        )
         self.state = "idle"
+
+        completion_payload = {"original_task": task, "result": result}
         completion_msg = Message(
             source_id=self.agent_id,
             target_id=task_message.source_id,
             message_type=MessageType.TASK_COMPLETE,
-            payload=task_message.payload,
+            payload=completion_payload,
         )
         self.message_bus.publish("system.task_complete", completion_msg)

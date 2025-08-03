@@ -1,0 +1,67 @@
+name: CI - Run Tests and Linting
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements-pinned.txt
+        pip install black isort flake8 mypy
+    - name: Check code formatting with black
+      run: black --check .
+    - name: Check import sorting with isort
+      run: isort --check-only .
+    - name: Lint with flake8
+      run: flake8 .
+    - name: Type check with mypy
+      run: mypy src tests
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements-pinned.txt
+    - name: Test with pytest
+      run: pytest -v
+    - name: Run hyperparameter tuning test
+      run: python hyperparameter_tuning.py --help
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements-pinned.txt
+    - name: Verify imports
+      run: python -c "from src.kernel.qatp_kernel import QATPKernel; print('Import successful')"
+    - name: Test basic functionality
+      run: python -c "import numpy as np; from src.kernel.qatp_kernel import QATPKernel; from src.kernel.config_loader import load_config; config = load_config([]); kernel = QATPKernel(config); X_train = np.array([[1], [2], [3]]); y_train = np.array([[2], [4], [6]]); kernel.train(X_train, y_train); print('Training successful')"

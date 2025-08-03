@@ -1,0 +1,11 @@
+numpy==1.24.3
+scipy==1.10.1
+qiskit-terra==0.25.1
+qiskit-aer==0.12.2
+qiskit-machine-learning==0.7.1
+pytest==7.4.0
+pigar==0.10.0
+reservoirpy[hyper]==0.3.13
+hyperopt==0.2.7
+matplotlib==3.7.1
+jsonargparse==4.22.1

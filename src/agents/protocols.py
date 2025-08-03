@@ -2,7 +2,13 @@ import time
 import uuid
 from dataclasses import dataclass, field
 from enum import Enum, auto
-from typing import Any
+from typing import Any, Dict
+
+
+@dataclass
+class Task:
+    task_type: str
+    params: Dict[str, Any]
 
 
 class MessageType(Enum):
