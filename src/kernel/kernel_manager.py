@@ -3,6 +3,7 @@ from typing import Any, List, Optional
 from core.dispatcher import DispatchAgent
 from core.message_bus import MessageBus
 from src.agents.base_agent import BaseAgent
+from src.agents.math_agent import MathAgent
 from src.agents.monitor_agent import MonitorAgent
 
 from .config_loader import load_config
@@ -21,13 +22,20 @@ class KernelManager:
         self.dispatch_agent: DispatchAgent = DispatchAgent(self.message_bus)
         self.monitor_agent: MonitorAgent = MonitorAgent(self.message_bus)
         self.swarm: List[BaseAgent] = [
-            BaseAgent(self.message_bus) for _ in range(self.config.num_agents)
+            MathAgent(self.message_bus) for _ in range(self.config.num_agents)
         ]
 
     def start_swarm(self) -> None:
         self.dispatch_agent.start()
         for agent in self.swarm:
             agent.start()
+        # Add a sample task to the dispatch agent's queue
+        from core.protocols import Task
+
+        sample_task = Task(
+            task_type="math_task", params={"operation": "add", "values": [10, 20, 30]}
+        )
+        self.dispatch_agent.add_task(sample_task)
 
     def stop_swarm(self) -> None:
         for agent in self.swarm:

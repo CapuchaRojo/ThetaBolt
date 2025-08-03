@@ -2,7 +2,8 @@ import time
 
 from core.dispatcher import DispatchAgent
 from core.message_bus import MessageBus
-from src.agents.base_agent import BaseAgent
+from core.protocols import Task
+from src.agents.math_agent import MathAgent
 
 
 def test_full_task_cycle() -> None:
@@ -10,7 +11,7 @@ def test_full_task_cycle() -> None:
 
     # Create agents
     dispatch_agent = DispatchAgent(message_bus)
-    swarm_agent_1 = BaseAgent(message_bus, agent_id="swarm_1")
+    swarm_agent_1 = MathAgent(message_bus, agent_id="swarm_1")
 
     # Start agents
     dispatch_agent.start()
@@ -20,17 +21,20 @@ def test_full_task_cycle() -> None:
     time.sleep(0.1)
 
     # Manually trigger task dispatch
-    dispatch_agent.dispatch_new_task()
+    dispatch_agent.add_task(
+        Task(task_type="math_task", params={"operation": "add", "values": [5, 10]})
+    )
 
     # Allow time for task assignment and completion
-    time.sleep(3)
+    timeout = time.time() + 5  # 5-second timeout
+    while (
+        dispatch_agent.agent_registry.get("swarm_1", {}).get("state") != "idle"
+        and time.time() < timeout
+    ):
+        time.sleep(0.1)
 
     # Stop agents
     dispatch_agent.stop()
     swarm_agent_1.stop()
 
-    # Assertions can be tricky with threading and timing.
-    # For a real test, we would mock the message bus and check calls.
-    # For this demonstration, we rely on the print statements in the agents.
-    # A more robust test would be needed for production.
     assert dispatch_agent.agent_registry["swarm_1"]["state"] == "idle"

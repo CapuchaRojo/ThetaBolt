@@ -2,7 +2,11 @@ import time
 import uuid
 from dataclasses import dataclass, field
 from enum import Enum, auto
-from typing import Any, Dict
+from typing import Any, Dict, Protocol
+
+
+class Agent(Protocol):
+    def handle_task(self, task_message: "Message") -> None: ...
 
 
 @dataclass
