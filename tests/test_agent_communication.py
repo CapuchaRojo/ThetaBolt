@@ -1,16 +1,16 @@
 import time
 
-from src.agents.dispatch_agent import DispatchAgent
-from src.agents.message_bus import MessageBus
-from src.agents.swarm_agent import SwarmAgent
+from core.dispatcher import DispatchAgent
+from core.message_bus import MessageBus
+from src.agents.base_agent import BaseAgent
 
 
-def test_full_task_cycle():
+def test_full_task_cycle() -> None:
     message_bus = MessageBus()
 
     # Create agents
     dispatch_agent = DispatchAgent(message_bus)
-    swarm_agent_1 = SwarmAgent(message_bus, agent_id="swarm_1")
+    swarm_agent_1 = BaseAgent(message_bus, agent_id="swarm_1")
 
     # Start agents
     dispatch_agent.start()

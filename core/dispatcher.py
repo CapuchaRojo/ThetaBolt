@@ -1,45 +1,49 @@
 import random
 import threading
 import time
+from typing import Any, Dict
 
-from .message_bus import MessageBus
+from core.message_bus import MessageBus
+
 from .protocols import Message, MessageType, Task
 
 
 class DispatchAgent:
-    def __init__(self, message_bus: MessageBus):
-        self.message_bus = message_bus
-        self.agent_registry = {}
-        self.running = False
-        self.thread = threading.Thread(target=self._run_loop, daemon=True)
+    def __init__(self, message_bus: MessageBus) -> None:
+        self.message_bus: MessageBus = message_bus
+        self.agent_registry: Dict[str, Dict[str, Any]] = {}
+        self.running: bool = False
+        self.thread: threading.Thread = threading.Thread(
+            target=self._run_loop, daemon=True
+        )
         self.message_bus.subscribe("system.registration", self.register_agent)
         self.message_bus.subscribe("system.task_complete", self.handle_task_completion)
 
-    def start(self):
+    def start(self) -> None:
         self.running = True
         self.thread.start()
 
-    def stop(self):
+    def stop(self) -> None:
         self.running = False
 
-    def _run_loop(self):
+    def _run_loop(self) -> None:
         while self.running:
             self.dispatch_new_task()
             time.sleep(15)  # Interval for dispatching new tasks
 
-    def register_agent(self, message: Message):
-        agent_id = message.source_id
+    def register_agent(self, message: Message) -> None:
+        agent_id: str = message.source_id
         self.agent_registry[agent_id] = {"state": "idle", "last_heartbeat": time.time()}
         print(f"[Dispatch] Registered agent: {agent_id}")
 
-    def handle_task_completion(self, message: Message):
-        agent_id = message.source_id
+    def handle_task_completion(self, message: Message) -> None:
+        agent_id: str = message.source_id
         if agent_id in self.agent_registry:
             self.agent_registry[agent_id]["state"] = "idle"
-            result = message.payload.get("result")
+            result: Any = message.payload.get("result")
             print(f"[Dispatch] Agent {agent_id} completed task. Result: {result}")
 
-    def dispatch_new_task(self):
+    def dispatch_new_task(self) -> None:
         # Simple round-robin assignment to idle agents
         for agent_id, status in self.agent_registry.items():
             if status["state"] == "idle":

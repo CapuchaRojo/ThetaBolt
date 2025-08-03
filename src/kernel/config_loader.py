@@ -1,7 +1,9 @@
+from typing import Any, List, Optional
+
 from jsonargparse import ArgumentParser
 
 
-def load_config(args=None):
+def load_config(args: Optional[List[str]] = None) -> Any:
     parser = ArgumentParser()
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--units", type=int, default=100)

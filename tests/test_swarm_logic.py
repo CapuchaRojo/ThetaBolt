@@ -1,27 +1,27 @@
 import time
 import unittest
 
-from src.agents.dispatch_agent import DispatchAgent
-from src.agents.message_bus import MessageBus
+from core.dispatcher import DispatchAgent
+from core.message_bus import MessageBus
+from core.protocols import Message, MessageType
+from src.agents.base_agent import BaseAgent
 from src.agents.monitor_agent import MonitorAgent
-from src.agents.protocols import Message, MessageType
-from src.agents.swarm_agent import SwarmAgent
 
 
 class TestSwarmLogic(unittest.TestCase):
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.message_bus = MessageBus()
         self.dispatch_agent = DispatchAgent(self.message_bus)
         self.monitor_agent = MonitorAgent(self.message_bus)
-        self.agent1 = SwarmAgent(self.message_bus, agent_id="agent1")
-        self.agent2 = SwarmAgent(self.message_bus, agent_id="agent2")
+        self.agent1 = BaseAgent(self.message_bus, agent_id="agent1")
+        self.agent2 = BaseAgent(self.message_bus, agent_id="agent2")
 
-    def test_agent_registration(self):
+    def test_agent_registration(self) -> None:
         self.agent1.register()
         self.assertIn("agent1", self.dispatch_agent.agent_registry)
 
-    def test_task_assignment_and_completion(self):
+    def test_task_assignment_and_completion(self) -> None:
         self.agent1.register()
         self.agent2.register()
 
@@ -41,7 +41,7 @@ class TestSwarmLogic(unittest.TestCase):
 
         self.assertEqual(self.dispatch_agent.agent_registry["agent1"]["state"], "idle")
 
-    def test_heartbeat_and_monitoring(self):
+    def test_heartbeat_and_monitoring(self) -> None:
         self.agent1.start()
         time.sleep(1)  # Allow time for registration and first heartbeat
         self.agent1.send_heartbeat()

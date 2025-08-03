@@ -1,6 +1,8 @@
+from typing import List
+
 import numpy as np
 
 
-def read_environment():
+def read_environment() -> List[float]:
     """Mock sensor input: replace later with real sensor vectors."""
-    return np.random.randn(1).tolist()
+    return list(np.random.randn(1))

@@ -2,13 +2,14 @@ import json
 import os
 
 import numpy as np
-from jsonargparse import ArgumentParser
+from jsonargparse import ArgumentParser, Namespace
+from reservoirpy.observables import rmse
 
-from src.kernel.qatp_kernel import QATPKernel
+from src.kernel.kernel_manager import KernelManager
 
 
-def test_reservoir_esn_learning():
-    config = {
+def test_reservoir_esn_learning() -> None:
+    initial_config = {
         "units": 50,
         "sr": 0.9,
         "lr": 0.3,
@@ -17,7 +18,7 @@ def test_reservoir_esn_learning():
         "num_agents": 10,
     }
     with open("test_config.json", "w") as f:
-        json.dump(config, f)
+        json.dump(initial_config, f)
 
     parser = ArgumentParser()
     parser.add_argument("--config", action="config")
@@ -28,7 +29,7 @@ def test_reservoir_esn_learning():
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--num_agents", type=int, default=10)
     parser.add_argument("--use_quantum", type=bool, default=False)
-    config = parser.parse_args(["--config", "test_config.json"])
+    config: Namespace = parser.parse_args(["--config", "test_config.json"])
 
     t = np.linspace(0, 10, 500)
     X = np.sin(t).reshape(-1, 1)
@@ -38,13 +39,13 @@ def test_reservoir_esn_learning():
     X_train, X_test = X[:split], X[split:]
     y_train, y_test = y[:split], y[split:]
 
-    kernel = QATPKernel(config=config)
+    kernel = KernelManager(config=config)
 
     kernel.train(X_train, y_train, warmup=20)
 
     y_pred = kernel.predict(X_test)
 
-    error = kernel.evaluate(y_test, y_pred)
+    error = rmse(y_test, y_pred)
 
     os.remove("test_config.json")
 
