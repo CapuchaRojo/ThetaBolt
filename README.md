@@ -1,4 +1,4 @@
-[![CI - Run Tests](https://github.com/CapuchaRojo/ThetaBolt/actions/workflows/pytest.yml/badge.svg)](https://github.com/CapuchaRojo/ThetaBolt/actions/workflows/pytest.yml)
+[![CI](https://github.com/CapuchaRojo/ThetaBolt/actions/workflows/ci.yml/badge.svg)](https://github.com/CapuchaRojo/ThetaBolt/actions/workflows/ci.yml)
 
 # ⚡️ ThetaBolt
 
