@@ -103,7 +103,6 @@ class DispatchAgent:
             )
             self.message_bus.publish("direct.reflection_agent", critique_msg)
 
-
     def _assign_tasks_from_queue(self) -> None:
         """Assigns tasks from the queue to available agents."""
         if not self.task_queue.empty():

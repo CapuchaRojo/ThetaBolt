@@ -5,7 +5,6 @@ from core.message_bus import MessageBus
 from src.agents.base_agent import BaseAgent
 from src.agents.math_agent import MathAgent
 from src.agents.monitor_agent import MonitorAgent
-
 from src.kernel.config_loader import load_config
 from src.kernel.quantum_fidelity_kernel import QuantumFidelityKernel
 from src.kernel.reservoir_kernel import ReservoirKernel

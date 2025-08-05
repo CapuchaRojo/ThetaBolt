@@ -16,5 +16,10 @@ class TestGraniteAgent(unittest.TestCase):
     def test_handle_task(self):
         """Tests the handle_task method of the GraniteAgent."""
         task = Task(task_type="granite_llm_interaction", params={})
-        message = Message(source_id="dispatcher", target_id="granite_agent_1", message_type=MessageType.TASK_ASSIGN, payload=task)
+        message = Message(
+            source_id="dispatcher",
+            target_id="granite_agent_1",
+            message_type=MessageType.TASK_ASSIGN,
+            payload=task,
+        )
         self.agent.handle_task(message)

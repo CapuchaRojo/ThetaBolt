@@ -37,14 +37,18 @@ class GraniteAgent(BaseAgent):
         """
         self.state = "working"
         task: Task = task_message.payload
-        print(f"[{self.agent_id}] Started Granite LLM interaction task: {task.task_type}")
+        print(
+            f"[{self.agent_id}] Started Granite LLM interaction task: {task.task_type}"
+        )
 
         # Simulate IBM Granite LLM interaction logic
         time.sleep(3)
         llm_response = "This is a simulated response from IBM Granite LLM."
         result = f"Granite LLM interaction successful: {llm_response}"
 
-        print(f"[{self.agent_id}] Finished Granite LLM interaction task. Result: {result}")
+        print(
+            f"[{self.agent_id}] Finished Granite LLM interaction task. Result: {result}"
+        )
         self.state = "idle"
 
         completion_payload: Dict[str, Any] = {"original_task": task, "result": result}

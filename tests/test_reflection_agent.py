@@ -16,5 +16,10 @@ class TestReflectionAgent(unittest.TestCase):
     def test_handle_task(self):
         """Tests the handle_task method of the ReflectionAgent."""
         task = Task(task_type="reflection_and_critique", params={})
-        message = Message(source_id="dispatcher", target_id="reflection_agent_1", message_type=MessageType.TASK_CRITIQUE, payload=task)
+        message = Message(
+            source_id="dispatcher",
+            target_id="reflection_agent_1",
+            message_type=MessageType.TASK_CRITIQUE,
+            payload=task,
+        )
         self.agent.handle_task(message)
