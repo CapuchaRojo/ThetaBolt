@@ -7,6 +7,12 @@ from src.agents.math_agent import MathAgent
 
 
 def test_full_task_cycle() -> None:
+    """Tests a full task cycle, from dispatch to completion, with a MathAgent.
+
+    This test verifies that the DispatchAgent can assign a task to a MathAgent,
+    the MathAgent can process the task, and the DispatchAgent can handle the
+    task completion.
+    """
     message_bus = MessageBus()
 
     # Create agents

@@ -9,7 +9,18 @@ from .protocols import Message, MessageType, Task
 
 
 class DispatchAgent:
+    """The DispatchAgent is responsible for routing tasks to available agents.
+
+    It maintains a registry of available agents and their capabilities, and it
+    assigns tasks from a queue to the most appropriate agent.
+    """
+
     def __init__(self, message_bus: MessageBus) -> None:
+        """Initializes the DispatchAgent.
+
+        Args:
+            message_bus: The message bus to use for communication.
+        """
         self.message_bus: MessageBus = message_bus
         self.agent_registry: Dict[str, Dict[str, Any]] = {}
         self.specialized_agents: Dict[str, List[str]] = (
@@ -24,22 +35,35 @@ class DispatchAgent:
         self.message_bus.subscribe("system.task_complete", self.handle_task_completion)
 
     def start(self) -> None:
+        """Starts the dispatch agent's main loop in a separate thread."""
         self.running = True
         self.thread.start()
 
     def stop(self) -> None:
+        """Stops the dispatch agent's main loop."""
         self.running = False
 
     def _run_loop(self) -> None:
+        """The main loop of the dispatch agent."""
         while self.running:
             self._assign_tasks_from_queue()
             time.sleep(1)  # Check for new tasks and idle agents more frequently
 
     def add_task(self, task: Task) -> None:
+        """Adds a task to the task queue.
+
+        Args:
+            task: The task to add.
+        """
         self.task_queue.put(task)
         print(f"[Dispatch] Added task to queue: {task.task_type}")
 
     def register_agent(self, message: Message) -> None:
+        """Registers a new agent with the dispatcher.
+
+        Args:
+            message: The registration message from the agent.
+        """
         agent_id: str = message.source_id
         self.agent_registry[agent_id] = {"state": "idle", "last_heartbeat": time.time()}
 
@@ -59,14 +83,29 @@ class DispatchAgent:
         print(f"[Dispatch] Registered agent: {agent_id}")
 
     def handle_task_completion(self, message: Message) -> None:
+        """Handles a task completion message from an agent.
+
+        Args:
+            message: The task completion message.
+        """
         agent_id: str = message.source_id
         if agent_id in self.agent_registry:
             self.agent_registry[agent_id]["state"] = "idle"
-            time.sleep(0.1)  # Allow time for state update to propagate
             result: Any = message.payload.get("result")
             print(f"[Dispatch] Agent {agent_id} completed task. Result: {result}")
 
+            # Send the completed task to the reflection agent for critique
+            critique_msg = Message(
+                source_id="dispatch",
+                target_id="reflection_agent",
+                message_type=MessageType.TASK_CRITIQUE,
+                payload=message.payload,
+            )
+            self.message_bus.publish("direct.reflection_agent", critique_msg)
+
+
     def _assign_tasks_from_queue(self) -> None:
+        """Assigns tasks from the queue to available agents."""
         if not self.task_queue.empty():
             task = self.task_queue.queue[0]  # Peek at the first task
 

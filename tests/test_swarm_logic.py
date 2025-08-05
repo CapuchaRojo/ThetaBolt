@@ -4,24 +4,28 @@ import unittest
 from core.dispatcher import DispatchAgent
 from core.message_bus import MessageBus
 from core.protocols import Message, MessageType
-from src.agents.base_agent import BaseAgent
+from src.agents.math_agent import MathAgent
 from src.agents.monitor_agent import MonitorAgent
 
 
 class TestSwarmLogic(unittest.TestCase):
+    """Tests for the swarm logic, including agent registration, task assignment, and monitoring."""
 
     def setUp(self) -> None:
+        """Sets up the test environment before each test method."""
         self.message_bus = MessageBus()
         self.dispatch_agent = DispatchAgent(self.message_bus)
         self.monitor_agent = MonitorAgent(self.message_bus)
-        self.agent1 = BaseAgent(self.message_bus, agent_id="agent1")
-        self.agent2 = BaseAgent(self.message_bus, agent_id="agent2")
+        self.agent1 = MathAgent(self.message_bus, agent_id="agent1")
+        self.agent2 = MathAgent(self.message_bus, agent_id="agent2")
 
     def test_agent_registration(self) -> None:
+        """Tests that agents can register with the dispatcher."""
         self.agent1.register()
         self.assertIn("agent1", self.dispatch_agent.agent_registry)
 
     def test_task_assignment_and_completion(self) -> None:
+        """Tests that tasks can be assigned to and completed by agents."""
         self.agent1.register()
         self.agent2.register()
 
@@ -34,14 +38,15 @@ class TestSwarmLogic(unittest.TestCase):
         # Wait for the agent to process the task and become idle
         timeout = time.time() + 10  # 10-second timeout
         while (
-            self.dispatch_agent.agent_registry["agent1"]["state"] != "idle"
+            self.dispatch_agent.agent_registry.get("agent1", {}).get("state") != "idle"
             and time.time() < timeout
         ):
             time.sleep(0.1)
 
-        self.assertEqual(self.dispatch_agent.agent_registry["agent1"]["state"], "idle")
+        self.assertEqual(self.dispatch_agent.agent_registry.get("agent1", {}).get("state"), "idle")
 
     def test_heartbeat_and_monitoring(self) -> None:
+        """Tests that agent heartbeats are monitored correctly."""
         self.agent1.start()
         time.sleep(1)  # Allow time for registration and first heartbeat
         self.agent1.send_heartbeat()

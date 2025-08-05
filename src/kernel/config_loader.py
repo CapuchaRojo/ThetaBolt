@@ -4,6 +4,14 @@ from jsonargparse import ArgumentParser
 
 
 def load_config(args: Optional[List[str]] = None) -> Any:
+    """Loads the application configuration from command-line arguments or a JSON file.
+
+    Args:
+        args: Optional list of command-line arguments. If None, sys.argv is used.
+
+    Returns:
+        A Namespace object containing the loaded configuration.
+    """
     parser = ArgumentParser()
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--units", type=int, default=100)

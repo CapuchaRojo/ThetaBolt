@@ -5,10 +5,15 @@ import numpy as np
 from jsonargparse import ArgumentParser, Namespace
 from reservoirpy.observables import rmse
 
-from src.kernel.kernel_manager import KernelManager
+from core.controller import Controller
 
 
 def test_reservoir_esn_learning() -> None:
+    """Tests the learning capability of the Reservoir Kernel.
+
+    This test trains a Reservoir Kernel with a sample dataset and verifies that
+    the prediction error is within an acceptable range.
+    """
     initial_config = {
         "units": 50,
         "sr": 0.9,
@@ -39,11 +44,11 @@ def test_reservoir_esn_learning() -> None:
     X_train, X_test = X[:split], X[split:]
     y_train, y_test = y[:split], y[split:]
 
-    kernel = KernelManager(config=config)
+    controller = Controller(config=config)
 
-    kernel.train(X_train, y_train, warmup=20)
+    controller.train(X_train, y_train, warmup=20)
 
-    y_pred = kernel.predict(X_test)
+    y_pred = controller.predict(X_test)
 
     error = rmse(y_test, y_pred)
 

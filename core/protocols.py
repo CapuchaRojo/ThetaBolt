@@ -6,20 +6,29 @@ from typing import Any, Dict, Protocol
 
 
 class Agent(Protocol):
-    def handle_task(self, task_message: "Message") -> None: ...
+    """An agent in the swarm."""
+
+    def handle_task(self, task_message: "Message") -> None:
+        """Handles a task assigned to the agent."""
+        ...
 
 
 @dataclass
 class Task:
+    """A task to be completed by an agent."""
+
     task_type: str
     params: Dict[str, Any]
 
 
 class MessageType(Enum):
+    """The type of a message."""
+
     # Task-related messages
     TASK_ASSIGN = auto()
     TASK_COMPLETE = auto()
     TASK_FAILED = auto()
+    TASK_CRITIQUE = auto()
 
     # Status and monitoring
     AGENT_REGISTER = auto()
@@ -33,6 +42,8 @@ class MessageType(Enum):
 
 @dataclass
 class Message:
+    """A message sent between agents."""
+
     message_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     source_id: str = "kernel"
     target_id: str = "broadcast"  # Can be agent_id, topic, or 'broadcast'
