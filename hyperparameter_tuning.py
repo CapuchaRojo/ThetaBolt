@@ -1,6 +1,6 @@
 import numpy as np
 from reservoirpy.datasets import mackey_glass, to_forecasting
-from reservoirpy.hyper import plot_hyperopt_report, research
+from reservoirpy.hyper import research
 from reservoirpy.nodes import Reservoir, Ridge
 from reservoirpy.observables import nrmse, rsquare
 
@@ -31,4 +31,4 @@ dataset = (x_train, x_test, y_train, y_test)
 exp, trials = research(objective, dataset, "hyperopt_config.json")
 
 # Visualize performance
-plot_hyperopt_report(exp, trials)
+# plot_hyperopt_report(exp, trials)
