@@ -1,8 +1,8 @@
 from typing import Any
 
-from qiskit.algorithms.state_fidelities import ComputeUncompute
 from qiskit.circuit.library import ZFeatureMap
 from qiskit.primitives import Sampler
+from qiskit_algorithms.state_fidelities import ComputeUncompute
 from qiskit_machine_learning.algorithms import QSVC
 from qiskit_machine_learning.kernels import FidelityQuantumKernel
 

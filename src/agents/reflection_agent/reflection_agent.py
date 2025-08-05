@@ -1,5 +1,5 @@
 import time
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
 
 from core.protocols import Message, MessageType, Task
 from src.agents.base_agent import BaseAgent
@@ -12,7 +12,7 @@ class ReflectionAgent(BaseAgent):
     their performance.
     """
 
-    def __init__(self, message_bus, agent_id=None):
+    def __init__(self, message_bus: Any, agent_id: Optional[str] = None) -> None:
         """Initializes the ReflectionAgent.
 
         Args:
@@ -21,7 +21,7 @@ class ReflectionAgent(BaseAgent):
         """
         super().__init__(message_bus, agent_id)
 
-    def get_capabilities(self):
+    def get_capabilities(self) -> List[str]:
         """Returns a list of task types this agent can handle.
 
         Returns:
