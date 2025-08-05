@@ -28,7 +28,7 @@ x_train, x_test, y_train, y_test = to_forecasting(X, test_size=0.2)
 dataset = (x_train, x_test, y_train, y_test)
 
 # Run search
-exp, trials = research(objective, dataset, conf_path="hyperopt_config.json")
+exp, trials = research(objective, dataset)
 
 # Visualize performance
 plot_hyperopt_report(exp, trials)
