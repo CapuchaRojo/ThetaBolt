@@ -44,8 +44,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements-pinned.txt
-    - name: Test with pytest
-      run: pytest -v
+        pip install pytest-cov # Install pytest-cov for coverage
+    - name: Test with pytest and coverage
+      run: pytest --cov=src tests/
     - name: Run hyperparameter tuning test
       run: python hyperparameter_tuning.py --help
 
@@ -61,11 +62,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements-pinned.txt
-        - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements-pinned.txt
     - name: Verify imports
-      run: python -c "from src.kernel.kernel_manager import KernelManager; print('Import successful')"
+      run: python -c "from core.controller import Controller; print('Import successful')"
     - name: Test basic functionality
-      run: python -c "import numpy as np; from src.kernel.kernel_manager import KernelManager; from src.kernel.config_loader import load_config; config = load_config([]); kernel = KernelManager(config); X_train = np.array([[1], [2], [3]]); y_train = np.array([[2], [4], [6]]); kernel.train(X_train, y_train); print('Training successful')"
+      run: python -c "import numpy as np; from core.controller import Controller; from src.kernel.config_loader import load_config; config = load_config([]); controller = Controller(config); X_train = np.array([[1], [2], [3]]); y_train = np.array([[2], [4], [6]]); controller.train(X_train, y_train); print('Training successful')"
