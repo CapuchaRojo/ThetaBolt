@@ -3,7 +3,7 @@ scipy>=1.9.0
 
 # Qiskit and Quantum Kernel functionality
 qiskit>=1.0.0
-qiskit-machine-learning>=1.0.0
+qiskit-machine-learning>=0.8.3
 
 # Development & testing
 pytest>=7.0.0
