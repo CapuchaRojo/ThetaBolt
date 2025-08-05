@@ -20,14 +20,14 @@ class ConcreteAgent(BaseAgent):
 class TestBaseAgent(unittest.TestCase):
     """Tests for the BaseAgent class."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Sets up the test environment before each test method."""
         self.message_bus = MagicMock()
         self.agent = ConcreteAgent(self.message_bus, agent_id="test_agent")
 
-    def test_handle_direct_message_other(self):
+    def test_handle_direct_message_other(self) -> None:
         """Tests handling of a direct message with an unsupported message type."""
-        message = Message(
+        message: Message = Message(
             source_id="dispatcher",
             target_id="test_agent",
             message_type=MessageType.DIRECT_MESSAGE,
