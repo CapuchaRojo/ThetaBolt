@@ -36,7 +36,7 @@ class ReservoirKernel(BaseKernel):
             y_train: The training labels.
             **kwargs: Additional keyword arguments for training, including 'warmup'.
         """
-        warmup: int = kwargs.get("warmup", 50)
+        warmup: int = kwargs.get("warmup", 0)
         print(f"Training with Classical Reservoir for data size: {len(X_train)}")
         self.model.fit(X_train, y_train, warmup=warmup)
 
