@@ -1,10 +1,10 @@
 numpy==1.24.3
 scipy==1.10.1
-qiskit-terra>=0.45.1
+qiskit-terra>=0.46.3
 qiskit-aer>=0.17.1
 qiskit-machine-learning>=0.8.3
 pytest==7.4.0
-pigar==0.10.0
+pigar>=2.0.3
 reservoirpy[hyper]==0.3.13
 hyperopt==0.2.7
 matplotlib==3.7.1
