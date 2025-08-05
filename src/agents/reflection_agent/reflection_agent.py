@@ -37,14 +37,18 @@ class ReflectionAgent(BaseAgent):
         """
         self.state = "working"
         task: Task = task_message.payload
-        print(f"[{self.agent_id}] Started reflection and critique task: {task.task_type}")
+        print(
+            f"[{self.agent_id}] Started reflection and critique task: {task.task_type}"
+        )
 
         # Simulate reflection and critique logic
         time.sleep(1)
         critique_result = "Task completed successfully. No major issues found."
         result = f"Critique: {critique_result}"
 
-        print(f"[{self.agent_id}] Finished reflection and critique task. Result: {result}")
+        print(
+            f"[{self.agent_id}] Finished reflection and critique task. Result: {result}"
+        )
         self.state = "idle"
 
         completion_payload: Dict[str, Any] = {"original_task": task, "result": result}

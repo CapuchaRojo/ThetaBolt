@@ -11,10 +11,17 @@ class TestGeneticParserAgent(unittest.TestCase):
     def setUp(self):
         """Sets up the test environment before each test method."""
         self.message_bus = MagicMock()
-        self.agent = GeneticParserAgent(self.message_bus, agent_id="genetic_parser_agent_1")
+        self.agent = GeneticParserAgent(
+            self.message_bus, agent_id="genetic_parser_agent_1"
+        )
 
     def test_handle_task(self):
         """Tests the handle_task method of the GeneticParserAgent."""
         task = Task(task_type="genetic_data_parsing", params={})
-        message = Message(source_id="dispatcher", target_id="genetic_parser_agent_1", message_type=MessageType.TASK_ASSIGN, payload=task)
+        message = Message(
+            source_id="dispatcher",
+            target_id="genetic_parser_agent_1",
+            message_type=MessageType.TASK_ASSIGN,
+            payload=task,
+        )
         self.agent.handle_task(message)

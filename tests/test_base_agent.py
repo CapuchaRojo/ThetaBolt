@@ -27,5 +27,10 @@ class TestBaseAgent(unittest.TestCase):
 
     def test_handle_direct_message_other(self):
         """Tests handling of a direct message with an unsupported message type."""
-        message = Message(source_id="dispatcher", target_id="test_agent", message_type=MessageType.DIRECT_MESSAGE, payload="test_payload")
+        message = Message(
+            source_id="dispatcher",
+            target_id="test_agent",
+            message_type=MessageType.DIRECT_MESSAGE,
+            payload="test_payload",
+        )
         self.agent.handle_direct_message(message)

@@ -1,7 +1,7 @@
 import numpy as np
 
-from src.kernel.config_loader import load_config
 from core.controller import Controller
+from src.kernel.config_loader import load_config
 from src.kernel.quantum_fidelity_kernel import QuantumFidelityKernel
 from src.kernel.reservoir_kernel import ReservoirKernel
 

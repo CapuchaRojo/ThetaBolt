@@ -24,4 +24,4 @@ jobs:
           pip install reservoirpy
       - name: Run tests
         run: |
-          pytest
+          pytest tests/ -v --tb=short

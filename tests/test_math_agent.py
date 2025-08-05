@@ -15,30 +15,57 @@ class TestMathAgent(unittest.TestCase):
 
     def test_handle_task_add(self):
         """Tests the handle_task method with an 'add' operation."""
-        task = Task(task_type="math_task", params={"operation": "add", "values": [1, 2, 3]})
-        message = Message(source_id="dispatcher", target_id="math_agent_1", message_type=MessageType.TASK_ASSIGN, payload=task)
+        task = Task(
+            task_type="math_task", params={"operation": "add", "values": [1, 2, 3]}
+        )
+        message = Message(
+            source_id="dispatcher",
+            target_id="math_agent_1",
+            message_type=MessageType.TASK_ASSIGN,
+            payload=task,
+        )
         self.agent.handle_task(message)
-        self.message_bus.publish.assert_called_with("system.task_complete", unittest.mock.ANY)
+        self.message_bus.publish.assert_called_with(
+            "system.task_complete", unittest.mock.ANY
+        )
         # Check the result in the completion message
         completion_message = self.message_bus.publish.call_args[0][1]
         self.assertEqual(completion_message.payload["result"], 6)
 
     def test_handle_task_multiply(self):
         """Tests the handle_task method with a 'multiply' operation."""
-        task = Task(task_type="math_task", params={"operation": "multiply", "values": [2, 3, 4]})
-        message = Message(source_id="dispatcher", target_id="math_agent_1", message_type=MessageType.TASK_ASSIGN, payload=task)
+        task = Task(
+            task_type="math_task", params={"operation": "multiply", "values": [2, 3, 4]}
+        )
+        message = Message(
+            source_id="dispatcher",
+            target_id="math_agent_1",
+            message_type=MessageType.TASK_ASSIGN,
+            payload=task,
+        )
         self.agent.handle_task(message)
-        self.message_bus.publish.assert_called_with("system.task_complete", unittest.mock.ANY)
+        self.message_bus.publish.assert_called_with(
+            "system.task_complete", unittest.mock.ANY
+        )
         # Check the result in the completion message
         completion_message = self.message_bus.publish.call_args[0][1]
         self.assertEqual(completion_message.payload["result"], 24)
 
     def test_handle_task_unsupported_operation(self):
         """Tests the handle_task method with an unsupported operation."""
-        task = Task(task_type="math_task", params={"operation": "subtract", "values": [1, 2, 3]})
-        message = Message(source_id="dispatcher", target_id="math_agent_1", message_type=MessageType.TASK_ASSIGN, payload=task)
+        task = Task(
+            task_type="math_task", params={"operation": "subtract", "values": [1, 2, 3]}
+        )
+        message = Message(
+            source_id="dispatcher",
+            target_id="math_agent_1",
+            message_type=MessageType.TASK_ASSIGN,
+            payload=task,
+        )
         self.agent.handle_task(message)
-        self.message_bus.publish.assert_called_with("system.task_complete", unittest.mock.ANY)
+        self.message_bus.publish.assert_called_with(
+            "system.task_complete", unittest.mock.ANY
+        )
         # Check the result in the completion message
         completion_message = self.message_bus.publish.call_args[0][1]
         self.assertEqual(completion_message.payload["result"], "Unsupported operation")
@@ -46,9 +73,16 @@ class TestMathAgent(unittest.TestCase):
     def test_handle_task_unknown_task_type(self):
         """Tests the handle_task method with an unknown task type."""
         task = Task(task_type="string_task", params={})
-        message = Message(source_id="dispatcher", target_id="math_agent_1", message_type=MessageType.TASK_ASSIGN, payload=task)
+        message = Message(
+            source_id="dispatcher",
+            target_id="math_agent_1",
+            message_type=MessageType.TASK_ASSIGN,
+            payload=task,
+        )
         self.agent.handle_task(message)
-        self.message_bus.publish.assert_called_with("system.task_complete", unittest.mock.ANY)
+        self.message_bus.publish.assert_called_with(
+            "system.task_complete", unittest.mock.ANY
+        )
         # Check the result in the completion message
         completion_message = self.message_bus.publish.call_args[0][1]
         self.assertEqual(completion_message.payload["result"], "Unknown task type")
