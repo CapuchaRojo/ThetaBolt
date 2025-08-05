@@ -1,6 +1,6 @@
 import time
 import unittest
-from typing import List
+from typing import Any, Dict, List
 
 from core.dispatcher import DispatchAgent
 from core.message_bus import MessageBus
@@ -39,14 +39,14 @@ class TestSwarmLogic(unittest.TestCase):
         self.agent1.register()
         self.agent2.register()
 
-        task_payload = {"task": "test_work"}
-        task_message = Message(
+        task_payload: Dict[str, str] = {"task": "test_work"}
+        task_message: Message = Message(
             message_type=MessageType.TASK_ASSIGN, payload=task_payload
         )
         self.message_bus.publish("dispatch.task", task_message)
 
         # Wait for the agent to process the task and become idle
-        timeout = time.time() + 10  # 10-second timeout
+        timeout: float = time.time() + 10  # 10-second timeout
         while (
             self.dispatch_agent.agent_registry["agent1"]["state"] != "idle"
             and time.time() < timeout
@@ -61,7 +61,7 @@ class TestSwarmLogic(unittest.TestCase):
         self.agent1.send_heartbeat()
         time.sleep(1)
 
-        summary = self.monitor_agent.get_swarm_health_summary()
+        summary: Dict[str, Any] = self.monitor_agent.get_swarm_health_summary()
         self.assertIn("agent1", summary)
         self.assertEqual(summary["agent1"]["status"], "online")
         self.assertEqual(summary["agent1"]["state"], "idle")

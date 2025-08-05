@@ -1,12 +1,13 @@
 import threading
 import time
 import uuid
+from abc import ABC, abstractmethod
 from typing import Any, List, Optional
 
 from core.protocols import Message, MessageType
 
 
-class BaseAgent:
+class BaseAgent(ABC):
     def __init__(self, message_bus: Any, agent_id: Optional[str] = None) -> None:
         self.agent_id: str = agent_id or str(uuid.uuid4())
         self.message_bus: Any = message_bus
@@ -60,3 +61,7 @@ class BaseAgent:
             ).start()
         else:
             print(f"[{self.agent_id}] Received direct message: {message.payload}")
+
+    @abstractmethod
+    def handle_task(self, task_message: Message) -> None:
+        pass
